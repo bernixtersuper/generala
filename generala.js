@@ -34,11 +34,13 @@ function addPlayer() {
         updatePlayersList();
         playerNameInput.value = '';
         updateScoreTable();
+        updateRollButtonState();
     }
 }
 
 function updatePlayersList() {
-    playersList.innerHTML = players.map(player => `<div class="player">${player.name}</div>`).join('');
+    const playersList = document.getElementById('players-list');
+    playersList.innerHTML = players.map(player => `<li>${player.name}</li>`).join('');
 }
 
 function updateScoreTable() {
@@ -98,6 +100,11 @@ function updateCurrentPlayerInfo() {
 }
 
 function rollDice() {
+    if (players.length === 0) {
+        alert("Por favor, agrega al menos un jugador antes de tirar los dados.");
+        return;
+    }
+
     if (rollsLeft > 0) {
         diceValues = diceValues.map((value, index) => {
             const die = diceElements[index];
@@ -110,6 +117,7 @@ function rollDice() {
         if (rollsLeft === 0) {
             rollButton.style.display = 'none';
         }
+        saveGame(); // Guardar el estado del juego después de cada tirada
     }
 }
 
@@ -233,6 +241,8 @@ function nextTurn() {
         endGame();
     } else {
         updateCurrentPlayerInfo();
+        updateRollButtonState();
+        saveGame(); // Guardar el juego después de avanzar al siguiente turno
     }
 }
 
@@ -265,7 +275,6 @@ diceElements.forEach(die => {
 
 function initGame() {
     loadGame();
-    updateDiceDisplay();
     diceElements.forEach(die => {
         die.style.cursor = 'default';
     });
@@ -279,19 +288,37 @@ function initGame() {
     if (undoButton) {
         undoButton.addEventListener('click', undoLastEdit);
     }
+
+    // Actualizar el estado del botón de tirar dados
+    updateRollButtonState();
+    
+    // Mostrar las opciones de puntaje si es necesario
+    if (diceValues.some(value => value !== 0)) {
+        showScoreOptions();
+    }
 }
 
-// Agregar función para guardar el juego
+// Modificar la función updateRollButtonState
+function updateRollButtonState() {
+    rollButton.disabled = players.length === 0 || rollsLeft === 0;
+    rollButton.style.opacity = (players.length === 0 || rollsLeft === 0) ? '0.5' : '1';
+    rollButton.textContent = rollsLeft > 0 ? `Tirar dados (${rollsLeft})` : 'Elegir categoría';
+}
+
+// Modificar la función saveGame
 function saveGame() {
     localStorage.setItem('generalaGame', JSON.stringify({
         players,
         currentPlayerIndex,
         currentTurn,
-        editHistory
+        editHistory,
+        diceValues,
+        rollsLeft,
+        turnCompleted: false // Agregar esta línea
     }));
 }
 
-// Agregar función para cargar el juego
+// Modificar la función loadGame
 function loadGame() {
     const savedGame = localStorage.getItem('generalaGame');
     if (savedGame) {
@@ -300,8 +327,18 @@ function loadGame() {
         currentPlayerIndex = gameData.currentPlayerIndex;
         currentTurn = gameData.currentTurn;
         editHistory = gameData.editHistory || [];
-        updateScoreTable();
-        updateCurrentPlayerInfo();
+        diceValues = gameData.diceValues || [0, 0, 0, 0, 0];
+        rollsLeft = gameData.rollsLeft || 3;
+
+        // Si el turno estaba completado, avanzar al siguiente jugador
+        if (gameData.turnCompleted) {
+            nextTurn();
+        } else {
+            updateScoreTable();
+            updateCurrentPlayerInfo();
+            updateDiceDisplay();
+            updateRollButtonState();
+        }
     }
 }
 
@@ -320,6 +357,7 @@ function restartGame() {
     rollsLeft = 3;
     currentTurn = 1;
     localStorage.removeItem('generalaGame');
+    updatePlayersList();
     updateScoreTable();
     updateCurrentPlayerInfo();
     updateDiceDisplay();

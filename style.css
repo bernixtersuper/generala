@@ -318,3 +318,28 @@ main {
     background-color: #e0e0e0;
     color: #000000;
 }
+
+#players-list-container {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#players-list-container h3 {
+    color: #75AADB;
+    margin-top: 0;
+}
+
+#players-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#players-list li {
+    background-color: #75AADB;
+    color: #FFFFFF;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
