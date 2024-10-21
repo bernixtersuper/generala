@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generala Argentina</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Generala Argentina</h1>
+    </header>
+    <main>
+        <div id="game-container">
+            <div id="player-setup">
+                <input type="text" id="player-name" placeholder="Nombre del jugador">
+                <button id="add-player">Agregar Jugador</button>
+            </div>
+            <div id="players-list"></div>
+            <div id="dice-container">
+                <div class="dice" id="dice1"></div>
+                <div class="dice" id="dice2"></div>
+                <div class="dice" id="dice3"></div>
+                <div class="dice" id="dice4"></div>
+                <div class="dice" id="dice5"></div>
+            </div>
+            <button id="roll-button">Tirar dados</button>
+            <div id="score-options" style="display: none;">
+                <h3>Elegir categoría:</h3>
+                <div id="category-buttons"></div>
+            </div>
+            <div id="score-container">
+                <h2>Puntuación</h2>
+                <table id="score-table"></table>
+            </div>
+            <button id="edit-score-button">Editar Puntaje</button>
+            <!-- Agregar este botón justo después del botón de editar puntaje -->
+            <button id="restart-game-button">Reiniciar Juego</button>
+            <button id="undo-edit-button">Deshacer última edición</button>
+        </div>
+    </main>
+    <footer>
+        <p>¡Vamos Argentina! 🇦🇷</p>
+    </footer>
+    <script src="generala.js"></script>
+</body>
+</html>

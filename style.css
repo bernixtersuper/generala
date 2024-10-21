@@ -1,0 +1,320 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #75AADB; /* Azul celeste */
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #FFFFFF;
+    color: #75AADB;
+    text-align: center;
+    padding: 20px 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#game-container {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#dice-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.dice {
+    width: 60px;
+    height: 80px;
+    background-color: #75AADB; /* Azul celeste */
+    border: 2px solid #FFFFFF;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Cuello de la camiseta */
+.dice::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 30px;
+    height: 15px;
+    background-color: #FFFFFF;
+    transform: translateX(-50%);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* Franjas de la camiseta */
+.dice::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: repeating-linear-gradient(
+        to right,
+        #75AADB,
+        #75AADB 5px,
+        #FFFFFF 5px,
+        #FFFFFF 10px
+    );
+}
+
+/* Tiritas laterales */
+.dice .tirita-izquierda,
+.dice .tirita-derecha {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background-color: #75AADB; /* Azul celeste */
+}
+
+.dice .tirita-izquierda {
+    left: 0;
+}
+
+.dice .tirita-derecha {
+    right: 0;
+}
+
+/* Número del dado */
+.dice span {
+    position: relative;
+    z-index: 2;
+    color: #FFFFFF;
+}
+
+.dice.selected {
+    background-color: #F9B54C;
+}
+
+.dice.selected span {
+    color: #000000;
+}
+
+/* Agregar al final del archivo */
+
+#current-player-info {
+    background-color: #F9B54C;
+    color: #FFFFFF;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#current-player-info h3 {
+    margin-top: 0;
+}
+
+#current-player-info ul {
+    padding-left: 20px;
+}
+
+.available {
+    background-color: #e0e0e0;
+}
+
+/* Asegurar que el texto en las celdas disponibles también sea negro */
+#score-table td.available {
+    color: #000000;
+}
+
+/* Agregar al final del archivo */
+#edit-score-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #75AADB;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#edit-score-button:hover {
+    background-color: #5D8CB3;
+}
+
+/* Agregar al final del archivo */
+#restart-game-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #F9B54C;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#restart-game-button:hover {
+    background-color: #F7A325;
+}
+
+/* Agregar estilo para la copa del mundo */
+.world-cup {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23F9B54C"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+#undo-edit-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #F9B54C;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#undo-edit-button:hover {
+    background-color: #F7A325;
+}
+
+/* Estilos para los botones de agregar jugador y tirar dados */
+#add-player, #roll-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #FFFFFF;
+    background-color: #F9B54C;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#add-player:hover, #roll-button:hover {
+    background-color: #F7A325;
+}
+
+#roll-button {
+    display: block;
+    margin: 20px auto;
+}
+
+/* Estilo para el input de nombre del jugador */
+#player-name {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #75AADB;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+/* Ajustar el contenedor de configuración del jugador */
+#player-setup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Agregar o modificar estos estilos en el archivo style.css */
+
+/* Estilos para la tabla de puntuación */
+#score-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #FFFFFF;
+}
+
+#score-table th, #score-table td {
+    border: 1px solid #75AADB;
+    padding: 8px;
+    text-align: center;
+}
+
+#score-table th {
+    background-color: #75AADB;
+    color: #FFFFFF;
+}
+
+#score-table td {
+    color: #000000;
+}
+
+/* Estilos para las opciones de puntuación */
+#score-options {
+    margin-top: 20px;
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#score-options h3 {
+    color: #75AADB;
+    margin-top: 0;
+}
+
+#category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#category-buttons button {
+    padding: 8px 12px;
+    background-color: #75AADB;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#category-buttons button:hover {
+    background-color: #5D8CB3;
+}
+
+/* Estilos para el contenedor de puntuación */
+#score-container {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+#score-container h2 {
+    color: #75AADB;
+    margin-top: 0;
+}
+
+/* Ajustar el estilo de las celdas disponibles */
+#score-table td.available {
+    background-color: #e0e0e0;
+    color: #000000;
+}
